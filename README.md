@@ -14,9 +14,92 @@ conda install numpy==1.21.4 matplotlib==3.4.3
 
 This code should execute correctly with updated versions of these packages.
 
-## Datasets
+Prerequisites
+Python Installation
 
-The datasets are collected from the SUMO scenario.
+Ensure you have a working installation of Python (preferably version 3.8).
+
+SUMO Installation
+
+SUMO is an open-source traffic simulation package. You can install SUMO on various operating systems by following the official installation guide: https://sumo.dlr.de/docs/Installing/index.html.
+
+NUMO Installation
+
+NUMO is a scenario package designed for use with SUMO to facilitate traffic simulations.
+
+Clone the NUMO repository:
+git clone https://github.com/ToyotaInfoTech/numo.git
+
+Setting Up the Environment
+
+Virtual Environment (Recommended)
+It is recommended to create and use a virtual environment to ensure consistent dependencies and avoid conflicts.
+
+Configure SUMO_HOME
+Make sure the SUMO_HOME environment variable is set correctly:
+export SUMO_HOME="/path/to/sumo"
+
+Running the NUMO Simulation
+jupyter notebook numo_data_collection_revised.ipynb
+
+How each feature (Step, VehicleID, Obs_VehicleID, Obs_Speed, Obs_Acceleration, Obs_Direction, Obs_Location_X, Obs_Location_Y, TLS_X, TLS_Y, TLS_State, minDur, maxDur, timeSwitch) is recorded
+1. Step
+   - Description: The current time step in the simulation.
+   - Recording Method: The current simulation time is recorded using current_time = traci.simulation.getTime() after each simulation step.
+
+2. VehicleID
+   - Description: The unique ID of the vehicle being processed.
+   - Recording Method: The vehicle_id parameter in the collect_data function represents the current vehicle's ID and is recorded as part of the data.
+
+3. Obs_VehicleID
+   - Description: The unique ID of the observed (neighboring) vehicle.
+   - Recording Method: The other_veh_id is obtained by checking nearby vehicles within a detection range and is recorded.
+
+4. Obs_Speed
+   - Description: The speed of the observed vehicle.
+   - Recording Method: The speed is retrieved using traci.vehicle.getSpeed(other_veh_id) and recorded.
+
+5. Obs_Acceleration
+   - Description: The acceleration of the observed vehicle.
+   - Recording Method: The acceleration is retrieved using traci.vehicle.getAcceleration(other_veh_id) and recorded.
+
+6. Obs_Direction
+   - Description: The direction of the observed vehicle (e.g., North, South, East, West).
+   - Recording Method: The vehicle's angle is retrieved using traci.vehicle.getAngle(other_veh_id) and converted to a direction (N, E, S, W) using the get_direction(angle) function.
+
+7. Obs_Location_X
+   - Description: The X coordinate of the observed vehicle's location.
+   - Recording Method: The X coordinate is obtained from traci.vehicle.getPosition(other_veh_id) and recorded.
+
+8. Obs_Location_Y
+   - Description: The Y coordinate of the observed vehicle's location.
+   - Recording Method: The Y coordinate is obtained from traci.vehicle.getPosition(other_veh_id) and recorded.
+
+9. TLS_X
+   - Description: The X coordinate of the traffic light's location.
+   - Recording Method: The traffic light's position is retrieved using traci.junction.getPosition(tls_id), and the X coordinate is recorded.
+
+10. TLS_Y
+    - Description: The Y coordinate of the traffic light's location.
+    - Recording Method: Similarly, the Y coordinate from traci.junction.getPosition(tls_id) is recorded.
+
+11. TLS_State
+    - Description: The current state of the traffic light (e.g., red, green, yellow).
+    - Recording Method: The traffic light state is retrieved using traci.trafficlight.getRedYellowGreenState(tls_id) and categorized into left turn, straight, and right turn directions.
+
+12. minDur
+    - Description: The minimum duration of the current traffic light phase.
+    - Recording Method: Calculated using the calculate_duration(tls_id) function for each lane and recorded by direction (left turn, straight, right turn).
+
+13. maxDur
+    - Description: The maximum duration of the current traffic light phase.
+    - Recording Method: Similarly calculated using calculate_duration(tls_id) and recorded by direction.
+
+14. timeSwitch
+    - Description: The time at which the traffic light state changes.
+    - Recording Method: Updated and recorded using the updateSwitchTime(prev_data, current_time) function when a state change is detected.
+
+
 
 ### Core
 The `losses` and `networks` files are from the "Unsupervised Scalable Representation Learning for Multivariate Time Series".
