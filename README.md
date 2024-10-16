@@ -1,7 +1,7 @@
 
 # Code
 
-The code for representation learning is based on the following work: "Unsupervised Scalable Representation Learning for Multivariate Time Series" (Jean-Yves Franceschi, Aymeric Dieuleveut and Martin Jaggi) [[NeurIPS]](https://papers.nips.cc/paper/8713-unsupervised-scalable-representation-learning-for-multivariate-time-series). The following requirements are mostly from their README file.
+This code implements Decentralized Federated Learning for Multivariate Time Series Prediction, featuring a novel weighted aggregation method. The requirements outlined below are derived primarily from the project's README file.
 
 ## Requirements
 
